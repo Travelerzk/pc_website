@@ -75,7 +75,7 @@ function GlowCard({
   return (
     <AnimatedContent distance={46} duration={0.78} threshold={0.16} delay={delay} scale={0.98} className={`w-full ${className}`}>
       <BorderGlow
-        className="w-full transition duration-300 ease-out hover:-translate-y-1 hover:scale-[1.012]"
+        className="w-full"
         backgroundColor="rgba(25, 23, 42, 0.42)"
         glowColor="270 92 76"
         borderRadius={8}
@@ -83,9 +83,12 @@ function GlowCard({
         glowIntensity={0.78}
         edgeSensitivity={24}
         coneSpread={24}
-        fillOpacity={0.18}
+        fillOpacity={0.14}
         colors={["#7c3aed", "#c084fc", "#38bdf8"]}
         animated={animated}
+        tilt
+        tiltAmplitude={4.5}
+        tiltScale={1.025}
       >
         <div className="min-w-0 rounded-lg border border-white/15 bg-panelSoft/58 p-6 shadow-ambient backdrop-blur-2xl transition duration-300 ease-out hover:border-orchid/40 hover:bg-[#211d36]/68 sm:p-7">
           {children}
@@ -249,7 +252,17 @@ function Hero() {
           className="relative mx-auto w-[calc(100vw-2rem)] max-w-[680px] md:w-full md:translate-x-10 lg:translate-x-20"
         >
           <div className="group relative h-[500px] sm:h-[560px] md:h-[640px]">
-            <div className="absolute left-1/2 top-[4%] z-0 h-[26rem] w-[26rem] -translate-x-[42%] overflow-hidden rounded-full bg-orchid/[0.22] shadow-[0_34px_120px_rgba(0,0,0,0.42),0_0_110px_rgba(192,132,252,0.22)] backdrop-blur-sm sm:h-[31rem] sm:w-[31rem] md:h-[36rem] md:w-[36rem]">
+            <div className="absolute left-1/2 top-[4%] z-0 h-[26rem] w-[26rem] -translate-x-[42%] sm:h-[31rem] sm:w-[31rem] md:h-[36rem] md:w-[36rem]">
+            <AnimatedContent
+              className="h-full w-full"
+              distance={72}
+              direction="horizontal"
+              duration={1.15}
+              delay={0.08}
+              threshold={0.05}
+              scale={0.94}
+            >
+            <div className="relative h-full w-full overflow-hidden rounded-full bg-orchid/[0.22] shadow-[0_34px_120px_rgba(0,0,0,0.42),0_0_110px_rgba(192,132,252,0.22)] backdrop-blur-sm">
               <div className="absolute inset-0 rounded-full bg-violet/[0.12]" />
               <svg
                 className="absolute left-1/2 top-[3%] h-56 w-56 -translate-x-[15%] text-orchid/82 sm:h-64 sm:w-64 md:h-80 md:w-80"
@@ -268,11 +281,25 @@ function Hero() {
               <div className="absolute bottom-2 left-1/2 h-48 w-[72%] -translate-x-[43%] rounded-full bg-black/58 blur-3xl" />
               <div className="absolute inset-0 rounded-full bg-orchid/[0.08] mix-blend-screen" />
             </div>
+            </AnimatedContent>
+            </div>
+            <div className="absolute left-1/2 top-[-12%] z-30 h-[112%] w-auto max-w-none -translate-x-[48%] sm:top-[-16%] sm:h-[120%] md:top-[-20%] md:h-[128%]">
+            <AnimatedContent
+              className="h-full w-auto"
+              distance={90}
+              direction="horizontal"
+              duration={1.05}
+              delay={0.18}
+              threshold={0.05}
+              scale={0.96}
+            >
             <img
               src="/assets/images/avatar-hero-embedded.png"
               alt="陈梓康上半身照片"
-              className="absolute left-1/2 top-[-12%] z-30 h-[112%] w-auto max-w-none -translate-x-[48%] object-contain object-top opacity-95 brightness-[0.72] contrast-[1.2] saturate-[0.62] transition duration-500 ease-out [filter:drop-shadow(0_34px_86px_rgba(0,0,0,0.64))] group-hover:scale-[1.05] sm:top-[-16%] sm:h-[120%] md:top-[-20%] md:h-[128%]"
+              className="h-full w-auto max-w-none object-contain object-top opacity-95 brightness-[0.72] contrast-[1.2] saturate-[0.62] transition duration-500 ease-out [filter:drop-shadow(0_34px_86px_rgba(0,0,0,0.64))] group-hover:scale-[1.05]"
             />
+            </AnimatedContent>
+            </div>
           </div>
         </div>
       </div>

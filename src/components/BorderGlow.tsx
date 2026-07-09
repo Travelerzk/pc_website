@@ -14,6 +14,9 @@ type BorderGlowProps = {
   animated?: boolean;
   colors?: string[];
   fillOpacity?: number;
+  tilt?: boolean;
+  tiltAmplitude?: number;
+  tiltScale?: number;
 };
 
 type GlowStyle = CSSProperties & Record<`--${string}`, string | number>;
@@ -106,7 +109,10 @@ export function BorderGlow({
   coneSpread = 24,
   animated = false,
   colors = ["#735b37", "#c5a059", "#fff4d6"],
-  fillOpacity = 0.25
+  fillOpacity = 0.25,
+  tilt = false,
+  tiltAmplitude = 5,
+  tiltScale = 1.025
 }: BorderGlowProps) {
   const cardRef = useRef<HTMLDivElement | null>(null);
 
@@ -148,8 +154,27 @@ export function BorderGlow({
       const y = event.clientY - rect.top;
       card.style.setProperty("--edge-proximity", `${(getEdgeProximity(card, x, y) * 100).toFixed(3)}`);
       card.style.setProperty("--cursor-angle", `${getCursorAngle(card, x, y).toFixed(3)}deg`);
+      card.style.setProperty("--cursor-x", `${((x / rect.width) * 100).toFixed(3)}%`);
+      card.style.setProperty("--cursor-y", `${((y / rect.height) * 100).toFixed(3)}%`);
+
+      if (tilt) {
+        const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -tiltAmplitude;
+        const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * tiltAmplitude;
+        card.style.setProperty("--tilt-rotate-x", `${rotateX.toFixed(3)}deg`);
+        card.style.setProperty("--tilt-rotate-y", `${rotateY.toFixed(3)}deg`);
+        card.style.setProperty("--tilt-scale", `${tiltScale}`);
+      }
     },
-    [getCursorAngle, getEdgeProximity]
+    [getCursorAngle, getEdgeProximity, tilt, tiltAmplitude, tiltScale]
+  );
+
+  const handlePointerLeave = useCallback(() => {
+    const card = cardRef.current;
+    if (!card || !tilt) return;
+    card.style.setProperty("--tilt-rotate-x", "0deg");
+    card.style.setProperty("--tilt-rotate-y", "0deg");
+    card.style.setProperty("--tilt-scale", "1");
+  }, [tilt]
   );
 
   useEffect(() => {
@@ -192,12 +217,23 @@ export function BorderGlow({
     "--glow-padding": `${glowRadius}px`,
     "--cone-spread": coneSpread,
     "--fill-opacity": fillOpacity,
+    "--cursor-x": "50%",
+    "--cursor-y": "50%",
+    "--tilt-rotate-x": "0deg",
+    "--tilt-rotate-y": "0deg",
+    "--tilt-scale": 1,
     ...buildGlowVars(glowColor, glowIntensity),
     ...buildGradientVars(colors)
   };
 
   return (
-    <div ref={cardRef} onPointerMove={handlePointerMove} className={`border-glow-card ${className}`} style={style}>
+    <div
+      ref={cardRef}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
+      className={`border-glow-card ${tilt ? "tilt-enabled" : ""} ${className}`}
+      style={style}
+    >
       <span className="edge-light" />
       <div className="border-glow-inner">{children}</div>
     </div>

@@ -6,6 +6,11 @@
   --border-radius: 8px;
   --glow-padding: 24px;
   --cone-spread: 25;
+  --cursor-x: 50%;
+  --cursor-y: 50%;
+  --tilt-rotate-x: 0deg;
+  --tilt-rotate-y: 0deg;
+  --tilt-scale: 1;
 
   position: relative;
   border-radius: var(--border-radius);
@@ -15,6 +20,17 @@
   border: 1px solid rgb(255 255 255 / 22%);
   background: var(--card-bg, #735b37);
   overflow: visible;
+}
+
+.border-glow-card.tilt-enabled {
+  transform: perspective(900px) rotateX(var(--tilt-rotate-x)) rotateY(var(--tilt-rotate-y)) scale(var(--tilt-scale));
+  transform-style: preserve-3d;
+  transition: transform 0.18s ease-out;
+  will-change: transform;
+}
+
+.border-glow-card.tilt-enabled .border-glow-inner {
+  transform: translateZ(18px);
 }
 
 .border-glow-card::before,
@@ -62,25 +78,13 @@
 .border-glow-card::after {
   border: 1px solid transparent;
   background:
-    var(--gradient-one) padding-box,
-    var(--gradient-two) padding-box,
-    var(--gradient-three) padding-box,
-    var(--gradient-four) padding-box,
-    var(--gradient-five) padding-box,
-    var(--gradient-six) padding-box,
-    var(--gradient-seven) padding-box,
+    radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgb(255 255 255 / 26%), transparent 34%) padding-box,
+    radial-gradient(circle at var(--cursor-x) var(--cursor-y), var(--glow-color-40), transparent 58%) padding-box,
+    conic-gradient(from var(--cursor-angle) at var(--cursor-x) var(--cursor-y), transparent 0deg, var(--glow-color-20) 38deg, transparent 92deg) padding-box,
+    linear-gradient(135deg, rgb(255 255 255 / 9%), transparent 38%, rgb(124 58 237 / 13%) 100%) padding-box,
     var(--gradient-base) padding-box;
-  mask-image:
-    linear-gradient(to bottom, black, black),
-    radial-gradient(ellipse at 50% 50%, black 40%, transparent 65%),
-    radial-gradient(ellipse at 66% 66%, black 5%, transparent 40%),
-    radial-gradient(ellipse at 33% 33%, black 5%, transparent 40%),
-    radial-gradient(ellipse at 66% 33%, black 5%, transparent 40%),
-    radial-gradient(ellipse at 33% 66%, black 5%, transparent 40%),
-    conic-gradient(from var(--cursor-angle) at center, transparent 5%, black 15%, black 85%, transparent 95%);
-  mask-composite: subtract, add, add, add, add, add;
-  opacity: calc(var(--fill-opacity, 0.35) * (var(--edge-proximity) - var(--color-sensitivity)) / (100 - var(--color-sensitivity)));
-  mix-blend-mode: soft-light;
+  opacity: calc(var(--fill-opacity, 0.35) * 1.35);
+  mix-blend-mode: screen;
 }
 
 .border-glow-card > .edge-light {
