@@ -2,6 +2,8 @@ import { lazy, Suspense, type ReactNode } from "react";
 import { ArrowUpRight, Download, Mail, MapPin } from "lucide-react";
 import { AnimatedContent } from "./components/AnimatedContent";
 import { BorderGlow } from "./components/BorderGlow";
+import { GradientSplitText } from "./components/GradientSplitText";
+import { SplitText } from "./components/SplitText";
 import {
   education,
   experience,
@@ -170,23 +172,60 @@ function Hero() {
             <span>Data Product Manager</span>
             <span className="text-white/35">Portfolio 2026</span>
           </div>
-          <p className="bg-gradient-to-r from-white via-orchid to-violet bg-clip-text font-display text-4xl font-semibold italic leading-none text-transparent sm:text-6xl md:text-7xl">
-            Steven Chan
-          </p>
-          <h1 className="max-w-full whitespace-nowrap font-display text-[3.25rem] font-semibold uppercase leading-[0.82] text-white sm:text-[6rem] md:text-[7rem] lg:text-[8.35rem]">
-            Portfolio
-          </h1>
+          <GradientSplitText
+            text="Steven Chan"
+            colors={["#ffffff", "#c084fc", "#7C3AED", "#c084fc", "#ffffff"]}
+            animationSpeed={5}
+            delay={36}
+            duration={0.95}
+            distance={38}
+            className="font-display text-4xl font-semibold italic leading-none sm:text-6xl md:text-7xl"
+          />
+          <SplitText
+            tag="h1"
+            text="Portfolio"
+            className="mt-1 max-w-full whitespace-nowrap font-display text-[3.25rem] font-semibold uppercase leading-[0.82] text-white sm:text-[6rem] md:text-[6.4rem] lg:text-[7.2rem] xl:text-[8.35rem]"
+            delay={48}
+            duration={1.1}
+            ease="expo.out"
+            splitType="chars"
+            from={{ opacity: 0, y: 72, scaleY: 0.82, filter: "blur(12px)" }}
+            to={{ opacity: 1, y: 0, scaleY: 1, filter: "blur(0px)" }}
+            threshold={0.05}
+            rootMargin="0px"
+            textAlign="left"
+          />
           <div className="mt-7 grid max-w-3xl gap-5 border-t border-white/25 pt-6 md:grid-cols-[0.44fr_0.56fr]">
             <div>
               <p className="font-display text-2xl font-semibold text-white sm:text-3xl">Data Analyst</p>
             </div>
-            <p className="max-w-[21.5rem] break-words text-base leading-8 text-mist [word-break:break-all] md:max-w-none md:[word-break:normal] md:text-lg">
-              {profile.headline}
-            </p>
+            <SplitText
+              text={profile.headline}
+              className="max-w-[21.5rem] break-words text-base leading-8 text-mist [word-break:break-all] md:max-w-none md:[word-break:normal] md:text-lg"
+              delay={18}
+              duration={0.9}
+              ease="power3.out"
+              splitType="words"
+              from={{ opacity: 0, y: 18, filter: "blur(6px)" }}
+              to={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              threshold={0.05}
+              rootMargin="0px"
+              textAlign="left"
+            />
           </div>
-          <p className="mt-5 max-w-[21.5rem] break-words text-sm leading-8 text-white/70 [word-break:break-all] sm:max-w-[34rem] sm:text-base md:max-w-3xl md:[word-break:normal]">
-            {profile.summary}
-          </p>
+          <SplitText
+            text={profile.summary}
+            className="mt-5 max-w-[21.5rem] break-words text-sm leading-8 text-white/70 [word-break:break-all] sm:max-w-[34rem] sm:text-base md:max-w-3xl md:[word-break:normal]"
+            delay={10}
+            duration={0.75}
+            ease="power3.out"
+            splitType="words"
+            from={{ opacity: 0, y: 16 }}
+            to={{ opacity: 1, y: 0 }}
+            threshold={0.05}
+            rootMargin="0px"
+            textAlign="left"
+          />
           <div className="mt-8 grid grid-cols-1 gap-3 sm:flex sm:flex-wrap">
             {profile.tags.slice(0, 4).map((tag) => (
               <span key={tag} className="min-w-0 rounded-md bg-white/10 px-3 py-2 text-center text-sm text-white/75 sm:text-left">
@@ -206,17 +245,11 @@ function Hero() {
           </div>
         </AnimatedContent>
 
-        <AnimatedContent
-          className="relative z-10 mx-auto w-[calc(100vw-2rem)] max-w-[680px] md:w-full md:translate-x-10 lg:translate-x-20"
-          distance={80}
-          direction="horizontal"
-          duration={1.05}
-          delay={0.1}
-          threshold={0.05}
-          scale={0.96}
+        <div
+          className="relative mx-auto w-[calc(100vw-2rem)] max-w-[680px] md:w-full md:translate-x-10 lg:translate-x-20"
         >
           <div className="group relative h-[500px] sm:h-[560px] md:h-[640px]">
-            <div className="absolute left-1/2 top-[4%] h-[26rem] w-[26rem] -translate-x-[42%] overflow-hidden rounded-full bg-orchid/[0.22] shadow-[0_34px_120px_rgba(0,0,0,0.42),0_0_110px_rgba(192,132,252,0.22)] backdrop-blur-sm sm:h-[31rem] sm:w-[31rem] md:h-[36rem] md:w-[36rem]">
+            <div className="absolute left-1/2 top-[4%] z-0 h-[26rem] w-[26rem] -translate-x-[42%] overflow-hidden rounded-full bg-orchid/[0.22] shadow-[0_34px_120px_rgba(0,0,0,0.42),0_0_110px_rgba(192,132,252,0.22)] backdrop-blur-sm sm:h-[31rem] sm:w-[31rem] md:h-[36rem] md:w-[36rem]">
               <div className="absolute inset-0 rounded-full bg-violet/[0.12]" />
               <svg
                 className="absolute left-1/2 top-[3%] h-56 w-56 -translate-x-[15%] text-orchid/82 sm:h-64 sm:w-64 md:h-80 md:w-80"
@@ -238,10 +271,10 @@ function Hero() {
             <img
               src="/assets/images/avatar-hero-embedded.png"
               alt="陈梓康上半身照片"
-              className="absolute left-1/2 top-[-12%] z-10 h-[112%] w-auto max-w-none -translate-x-[48%] object-contain object-top opacity-95 brightness-[0.72] contrast-[1.2] saturate-[0.62] transition duration-500 ease-out [filter:drop-shadow(0_34px_86px_rgba(0,0,0,0.64))] group-hover:scale-[1.05] sm:top-[-16%] sm:h-[120%] md:top-[-20%] md:h-[128%]"
+              className="absolute left-1/2 top-[-12%] z-30 h-[112%] w-auto max-w-none -translate-x-[48%] object-contain object-top opacity-95 brightness-[0.72] contrast-[1.2] saturate-[0.62] transition duration-500 ease-out [filter:drop-shadow(0_34px_86px_rgba(0,0,0,0.64))] group-hover:scale-[1.05] sm:top-[-16%] sm:h-[120%] md:top-[-20%] md:h-[128%]"
             />
           </div>
-        </AnimatedContent>
+        </div>
       </div>
     </section>
   );
