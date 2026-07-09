@@ -1,0 +1,454 @@
+import { lazy, Suspense, type ReactNode } from "react";
+import { ArrowUpRight, Download, Mail, MapPin } from "lucide-react";
+import { AnimatedContent } from "./components/AnimatedContent";
+import { BorderGlow } from "./components/BorderGlow";
+import {
+  education,
+  experience,
+  methodCards,
+  metrics,
+  profile,
+  projects,
+  skills
+} from "./data/portfolio";
+
+const SoftAurora = lazy(() =>
+  import("./components/SoftAurora").then((module) => ({ default: module.SoftAurora }))
+);
+
+function GlowButton({
+  children,
+  href,
+  variant = "primary",
+  className = "",
+  ariaLabel,
+  animated = false
+}: {
+  children: ReactNode;
+  href: string;
+  variant?: "primary" | "secondary";
+  className?: string;
+  ariaLabel?: string;
+  animated?: boolean;
+}) {
+  const isPrimary = variant === "primary";
+  return (
+      <BorderGlow
+        className={className}
+        backgroundColor={isPrimary ? "rgba(124, 58, 237, 0.34)" : "rgba(21, 18, 37, 0.36)"}
+      glowColor="270 92 76"
+      borderRadius={8}
+      glowRadius={24}
+      glowIntensity={0.9}
+      edgeSensitivity={26}
+      coneSpread={22}
+      fillOpacity={isPrimary ? 0.22 : 0.12}
+      colors={["#7c3aed", "#c084fc", "#38bdf8"]}
+      animated={animated}
+    >
+      <a
+        className={`inline-flex h-full w-full items-center justify-center gap-2 rounded-md border border-white/15 px-5 py-3 font-medium shadow-ambient backdrop-blur-2xl transition ${
+          isPrimary ? "bg-violet/[0.55] text-white hover:bg-violet/70" : "bg-white/[0.08] text-white hover:bg-white/[0.12] hover:text-orchid"
+        }`}
+        href={href}
+        aria-label={ariaLabel}
+      >
+        {children}
+      </a>
+    </BorderGlow>
+  );
+}
+
+function GlowCard({
+  children,
+  className = "",
+  animated = false,
+  delay = 0
+}: {
+  children: ReactNode;
+  className?: string;
+  animated?: boolean;
+  delay?: number;
+}) {
+  return (
+    <AnimatedContent distance={46} duration={0.78} threshold={0.16} delay={delay} scale={0.98} className={`w-full ${className}`}>
+      <BorderGlow
+        className="w-full transition duration-300 ease-out hover:-translate-y-1 hover:scale-[1.012]"
+        backgroundColor="rgba(25, 23, 42, 0.42)"
+        glowColor="270 92 76"
+        borderRadius={8}
+        glowRadius={28}
+        glowIntensity={0.78}
+        edgeSensitivity={24}
+        coneSpread={24}
+        fillOpacity={0.18}
+        colors={["#7c3aed", "#c084fc", "#38bdf8"]}
+        animated={animated}
+      >
+        <div className="min-w-0 rounded-lg border border-white/15 bg-panelSoft/58 p-6 shadow-ambient backdrop-blur-2xl transition duration-300 ease-out hover:border-orchid/40 hover:bg-[#211d36]/68 sm:p-7">
+          {children}
+        </div>
+      </BorderGlow>
+    </AnimatedContent>
+  );
+}
+
+function getSchoolLogo(school: string) {
+  if (school.includes("香港理工")) {
+    return {
+      src: "/assets/logos/hong-kong-polyu.svg",
+      alt: "香港理工大学校徽"
+    };
+  }
+
+  if (school.includes("深圳大学")) {
+    return {
+      src: "/assets/logos/shenzhen-university.svg",
+      alt: "深圳大学校徽"
+    };
+  }
+
+  return null;
+}
+
+function Header() {
+  return (
+    <header className="fixed left-0 top-0 z-50 w-full border-b border-white/10 bg-night/80 backdrop-blur-2xl">
+      <nav className="mx-auto grid h-16 max-w-7xl grid-cols-[1fr_auto] items-center gap-3 px-4 md:flex md:justify-between md:px-8" aria-label="Main navigation">
+        <a className="min-w-0 truncate font-display text-base font-semibold text-white sm:text-lg" href="#top">
+          {profile.englishName}
+        </a>
+        <div className="hidden items-center gap-8 text-sm text-mist md:flex">
+          <a className="hover:text-orchid" href="#projects">项目</a>
+          <a className="hover:text-orchid" href="#experience">经历</a>
+          <a className="hover:text-orchid" href="#skills">能力</a>
+          <a className="hover:text-orchid" href="#contact">联系</a>
+        </div>
+        <GlowButton href="#contact" className="hidden sm:inline-grid" ariaLabel="联系">
+          <Mail size={16} />
+          <span>联系</span>
+        </GlowButton>
+      </nav>
+    </header>
+  );
+}
+
+function Hero() {
+  return (
+    <section id="top" className="relative overflow-hidden bg-night px-4 pt-24 sm:px-5 md:px-8 md:pt-24">
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-screen max-w-full opacity-75">
+        <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-violet/20 via-night to-orchid/15" />}>
+          <SoftAurora
+            speed={0.72}
+            scale={1.7}
+            brightness={1.65}
+            color1="#8b5cf6"
+            color2="#c084fc"
+            noiseFrequency={2.1}
+            noiseAmplitude={0.95}
+            bandHeight={0.52}
+            bandSpread={1.05}
+            octaveDecay={0.14}
+            layerOffset={0.42}
+            colorSpeed={0.28}
+            enableMouseInteraction={true}
+            mouseInfluence={0.12}
+          />
+        </Suspense>
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-r from-night via-night/74 to-night/42" />
+      <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-night to-transparent" />
+      <div className="relative z-10 mx-auto grid min-h-[760px] w-full max-w-7xl grid-cols-1 items-center gap-10 pb-16 md:grid-cols-[1.16fr_0.84fr] md:gap-8 md:pb-20">
+        <AnimatedContent
+          className="relative z-20 w-[calc(100vw-2rem)] min-w-0 overflow-hidden md:w-auto md:overflow-visible"
+          distance={42}
+          duration={1}
+          threshold={0.05}
+        >
+          <div className="mb-5 flex flex-wrap items-center gap-3 font-body text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-orchid sm:text-xs">
+            <span className="h-px w-10 bg-orchid/70" />
+            <span>Data Product Manager</span>
+            <span className="text-white/35">Portfolio 2026</span>
+          </div>
+          <p className="bg-gradient-to-r from-white via-orchid to-violet bg-clip-text font-display text-4xl font-semibold italic leading-none text-transparent sm:text-6xl md:text-7xl">
+            Steven Chan
+          </p>
+          <h1 className="max-w-full whitespace-nowrap font-display text-[3.25rem] font-semibold uppercase leading-[0.82] text-white sm:text-[6rem] md:text-[7rem] lg:text-[8.35rem]">
+            Portfolio
+          </h1>
+          <div className="mt-7 grid max-w-3xl gap-5 border-t border-white/25 pt-6 md:grid-cols-[0.44fr_0.56fr]">
+            <div>
+              <p className="font-display text-2xl font-semibold text-white sm:text-3xl">Data Analyst</p>
+            </div>
+            <p className="max-w-[21.5rem] break-words text-base leading-8 text-mist [word-break:break-all] md:max-w-none md:[word-break:normal] md:text-lg">
+              {profile.headline}
+            </p>
+          </div>
+          <p className="mt-5 max-w-[21.5rem] break-words text-sm leading-8 text-white/70 [word-break:break-all] sm:max-w-[34rem] sm:text-base md:max-w-3xl md:[word-break:normal]">
+            {profile.summary}
+          </p>
+          <div className="mt-8 grid grid-cols-1 gap-3 sm:flex sm:flex-wrap">
+            {profile.tags.slice(0, 4).map((tag) => (
+              <span key={tag} className="min-w-0 rounded-md bg-white/10 px-3 py-2 text-center text-sm text-white/75 sm:text-left">
+                {tag}
+              </span>
+            ))}
+          </div>
+          <div className="mt-10 flex flex-wrap gap-4">
+            <GlowButton href="#projects" animated>
+              查看项目
+              <ArrowUpRight size={18} />
+            </GlowButton>
+            <GlowButton href="#contact" variant="secondary">
+              <Download size={18} />
+              获取简历
+            </GlowButton>
+          </div>
+        </AnimatedContent>
+
+        <AnimatedContent
+          className="relative z-10 mx-auto w-[calc(100vw-2rem)] max-w-[680px] md:w-full md:translate-x-10 lg:translate-x-20"
+          distance={80}
+          direction="horizontal"
+          duration={1.05}
+          delay={0.1}
+          threshold={0.05}
+          scale={0.96}
+        >
+          <div className="group relative h-[500px] sm:h-[560px] md:h-[640px]">
+            <div className="absolute left-1/2 top-[4%] h-[26rem] w-[26rem] -translate-x-[42%] overflow-hidden rounded-full bg-orchid/[0.22] shadow-[0_34px_120px_rgba(0,0,0,0.42),0_0_110px_rgba(192,132,252,0.22)] backdrop-blur-sm sm:h-[31rem] sm:w-[31rem] md:h-[36rem] md:w-[36rem]">
+              <div className="absolute inset-0 rounded-full bg-violet/[0.12]" />
+              <svg
+                className="absolute left-1/2 top-[3%] h-56 w-56 -translate-x-[15%] text-orchid/82 sm:h-64 sm:w-64 md:h-80 md:w-80"
+                viewBox="0 0 240 240"
+                aria-hidden="true"
+              >
+                <defs>
+                  <path id="data-analyst-circle" d="M120,120 m-88,0 a88,88 0 1,1 176,0 a88,88 0 1,1 -176,0" />
+                </defs>
+                <text className="fill-current font-body text-[13px] font-semibold uppercase tracking-[0.34em]">
+                  <textPath href="#data-analyst-circle" startOffset="6%">
+                    DATA ANALYST DATA ANALYST DATA ANALYST
+                  </textPath>
+                </text>
+              </svg>
+              <div className="absolute bottom-2 left-1/2 h-48 w-[72%] -translate-x-[43%] rounded-full bg-black/58 blur-3xl" />
+              <div className="absolute inset-0 rounded-full bg-orchid/[0.08] mix-blend-screen" />
+            </div>
+            <img
+              src="/assets/images/avatar-hero-embedded.png"
+              alt="陈梓康上半身照片"
+              className="absolute left-1/2 top-[-12%] z-10 h-[112%] w-auto max-w-none -translate-x-[48%] object-contain object-top opacity-95 brightness-[0.72] contrast-[1.2] saturate-[0.62] transition duration-500 ease-out [filter:drop-shadow(0_34px_86px_rgba(0,0,0,0.64))] group-hover:scale-[1.05] sm:top-[-16%] sm:h-[120%] md:top-[-20%] md:h-[128%]"
+            />
+          </div>
+        </AnimatedContent>
+      </div>
+    </section>
+  );
+}
+
+function Method() {
+  return (
+    <section className="bg-[#080611] px-4 py-20 sm:px-5 md:px-8 md:py-24">
+      <div className="mx-auto max-w-7xl">
+        <AnimatedContent className="mb-12 max-w-2xl" distance={48}>
+          <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.16em] text-orchid">Method</p>
+          <h2 className="font-display text-3xl font-semibold text-white sm:text-4xl md:text-5xl">从业务问题到数据产品落地</h2>
+        </AnimatedContent>
+        <div className="grid gap-5 md:grid-cols-4">
+          {methodCards.map((card, index) => {
+            const Icon = card.icon;
+            return (
+              <GlowCard key={card.label} animated={index === 0} delay={index * 0.08}>
+                <div className="mb-5 flex items-center justify-between">
+                  <Icon className="text-orchid" size={28} />
+                  <span className="font-display text-4xl text-white/5">0{index + 1}</span>
+                </div>
+                <h3 className="font-display text-xl font-semibold text-white">{card.label}</h3>
+                <p className="mt-2 text-sm leading-6 text-mist">{card.text}</p>
+              </GlowCard>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Metrics() {
+  return (
+    <section className="bg-[#080611] px-4 py-12 text-white sm:px-5 md:px-8">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-4">
+        {metrics.map((metric, index) => (
+          <AnimatedContent key={metric.label} delay={index * 0.08} distance={38} scale={0.98} className="py-4">
+            <div className="font-display text-3xl font-semibold sm:text-4xl md:text-5xl">{metric.value}</div>
+            <div className="mt-3 text-sm font-medium text-white/90">{metric.label}</div>
+            <div className="mt-1 text-xs text-mist">{metric.note}</div>
+          </AnimatedContent>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function Projects() {
+  return (
+    <section id="projects" className="bg-night px-4 py-20 sm:px-5 md:px-8 md:py-24">
+      <div className="mx-auto max-w-7xl">
+        <AnimatedContent className="mb-14 max-w-2xl" distance={48}>
+          <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.16em] text-orchid">Selected Work</p>
+          <h2 className="font-display text-3xl font-semibold text-white sm:text-4xl md:text-5xl">三个真实数据产品案例</h2>
+        </AnimatedContent>
+        <div className="grid gap-6 lg:grid-cols-3">
+          {projects.map((project, index) => {
+            const Icon = project.icon;
+            return (
+              <GlowCard key={project.id} delay={index * 0.1}>
+                <article className="flex min-h-full min-w-0 flex-col">
+                <div className="mb-6 flex items-start justify-between gap-4">
+                  <Icon className="text-orchid" size={34} />
+                  <span className="rounded-md bg-white/10 px-3 py-1 text-xs text-mist">{project.period}</span>
+                </div>
+                <h3 className="font-display text-2xl font-semibold text-white">{project.title}</h3>
+                <p className="mt-2 text-sm font-medium text-orchid">{project.subtitle}</p>
+                <p className="mt-5 text-sm leading-6 text-mist">{project.problem}</p>
+                <div className="mt-6 space-y-3">
+                  {project.actions.map((action) => (
+                    <p key={action} className="text-sm leading-6 text-white/72">- {action}</p>
+                  ))}
+                </div>
+                <div className="mt-7 flex flex-wrap gap-2">
+                  {project.impact.map((item) => (
+                    <span key={item} className="rounded-md bg-white/10 px-3 py-2 text-xs text-white/80">{item}</span>
+                  ))}
+                </div>
+                </article>
+              </GlowCard>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Experience() {
+  return (
+    <section id="experience" className="bg-[#080611] px-4 py-20 sm:px-5 md:px-8 md:py-24">
+      <div className="mx-auto grid max-w-7xl gap-12 md:grid-cols-[0.36fr_0.64fr]">
+        <AnimatedContent distance={48}>
+          <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.16em] text-orchid">Experience</p>
+          <h2 className="font-display text-3xl font-semibold text-white sm:text-4xl">经历与教育</h2>
+        </AnimatedContent>
+        <div className="space-y-6">
+          {experience.map((item, index) => (
+            <GlowCard key={item.org} delay={index * 0.08}>
+            <article className="min-w-0">
+              <h3 className="font-display text-2xl font-semibold text-white">{item.title}</h3>
+              <p className="mt-2 text-sm text-orchid">{item.org}</p>
+              <p className="mt-1 text-sm text-mist">{item.meta}</p>
+              <p className="mt-5 leading-7 text-white/72">{item.description}</p>
+            </article>
+            </GlowCard>
+          ))}
+          <div className="grid gap-6 md:grid-cols-2">
+            {education.map((item, index) => {
+              const logo = getSchoolLogo(item.school);
+
+              return (
+                <GlowCard key={item.school} delay={0.12 + index * 0.08}>
+                  <article className="relative min-w-0 pr-20">
+                    {logo ? (
+                      <img
+                        className="absolute right-0 top-0 h-14 w-14 object-contain opacity-80 drop-shadow-[0_0_18px_rgba(192,132,252,0.18)] sm:h-16 sm:w-16"
+                        src={logo.src}
+                        alt={logo.alt}
+                      />
+                    ) : null}
+                    <h3 className="font-display text-xl font-semibold text-white">{item.school}</h3>
+                    <p className="mt-2 text-sm text-orchid">{item.degree}</p>
+                    <p className="mt-1 text-sm text-mist">{item.meta}</p>
+                    {item.note ? <p className="mt-4 text-sm leading-6 text-white/70">{item.note}</p> : null}
+                  </article>
+                </GlowCard>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Skills() {
+  return (
+    <section id="skills" className="bg-night px-4 py-20 sm:px-5 md:px-8 md:py-24">
+      <div className="mx-auto max-w-7xl">
+        <AnimatedContent className="mb-12 max-w-2xl" distance={48}>
+          <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.16em] text-orchid">Capabilities</p>
+          <h2 className="font-display text-3xl font-semibold text-white sm:text-4xl">把业务问题翻译成数据产品</h2>
+        </AnimatedContent>
+        <div className="grid gap-6 md:grid-cols-4">
+          {skills.map((skill, index) => {
+            const Icon = skill.icon;
+            return (
+              <GlowCard key={skill.title} delay={index * 0.08}>
+              <article className="min-w-0">
+                <Icon className="text-orchid" size={30} />
+                <h3 className="mt-5 font-display text-xl font-semibold text-white">{skill.title}</h3>
+                <div className="mt-5 space-y-2">
+                  {skill.items.map((item) => (
+                    <p key={item} className="text-sm text-mist">{item}</p>
+                  ))}
+                </div>
+              </article>
+              </GlowCard>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Contact() {
+  return (
+    <section id="contact" className="bg-[#080611] px-4 py-20 text-white sm:px-5 md:px-8">
+      <div className="mx-auto flex max-w-7xl flex-col justify-between gap-10 md:flex-row md:items-end">
+        <AnimatedContent distance={48}>
+          <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.16em] text-orchid">Contact</p>
+          <h2 className="max-w-2xl font-display text-3xl font-semibold sm:text-4xl md:text-5xl">
+            面向数据产品、BI 产品与经营分析平台岗位开放沟通。
+          </h2>
+        </AnimatedContent>
+        <AnimatedContent className="space-y-4 text-white/70" distance={48} delay={0.12}>
+          <GlowButton href={`mailto:${profile.email}`} variant="secondary" className="w-full sm:w-auto">
+            <Mail size={18} />
+            {profile.email}
+          </GlowButton>
+          <p className="flex items-center gap-3">
+            <MapPin size={18} />
+            {profile.city}
+          </p>
+        </AnimatedContent>
+      </div>
+    </section>
+  );
+}
+
+export function App() {
+  return (
+    <div className="overflow-x-hidden">
+      <Header />
+      <main>
+        <Hero />
+        <Metrics />
+        <Method />
+        <Projects />
+        <Experience />
+        <Skills />
+        <Contact />
+      </main>
+    </div>
+  );
+}
