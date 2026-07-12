@@ -19,7 +19,7 @@ export default {
       },
       fontFamily: {
         signature: ["Great Vibes", "Manrope", "cursive"],
-        display: ["Manrope", "Inter", "sans-serif"],
+        display: ["Century Gothic", "Avenir Next", "Avenir", "Montserrat", "sans-serif"],
         body: ["Inter", "sans-serif"]
       },
       boxShadow: {

@@ -343,9 +343,9 @@ function Method() {
   return (
     <section className="bg-[#080611] px-4 py-20 sm:px-5 md:px-8 md:py-24">
       <div className="mx-auto max-w-7xl">
-        <AnimatedContent className="mb-12 max-w-2xl" distance={48}>
-          <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.16em] text-orchid">Method</p>
-          <h2 className="font-display text-3xl font-semibold text-white sm:text-4xl md:text-5xl">Turning Business Complexity into Data Products</h2>
+        <AnimatedContent className="mb-12 w-full" distance={48}>
+          <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.16em] text-orchid">Approach</p>
+          <h2 className="font-display text-3xl font-semibold text-white sm:text-4xl lg:whitespace-nowrap lg:text-[clamp(2.25rem,3vw,3rem)]">Transforming Business Requirements into Data Solutions</h2>
         </AnimatedContent>
         <div className="grid gap-5 md:grid-cols-4">
           {methodCards.map((card, index) => {
@@ -389,8 +389,8 @@ function Projects() {
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#0a0715] via-[#080611]/70 to-transparent" />
       <div className="relative mx-auto max-w-7xl">
         <AnimatedContent className="mb-14 max-w-2xl" distance={48}>
-          <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.16em] text-orchid">Selected Work</p>
-          <h2 className="font-display text-3xl font-semibold text-white sm:text-4xl md:text-5xl">Selected Data Product Work</h2>
+          <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.16em] text-orchid">Case Studies</p>
+          <h2 className="font-display text-3xl font-semibold text-white sm:text-4xl md:text-5xl">Featured Data Projects</h2>
         </AnimatedContent>
         <div className="grid gap-6 lg:grid-cols-3">
           {projects.map((project, index) => {
@@ -526,8 +526,8 @@ function Skills() {
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#080611] via-night/75 to-transparent" />
       <div className="relative mx-auto max-w-7xl">
         <AnimatedContent className="mb-12 max-w-2xl" distance={48}>
-          <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.16em] text-orchid">Capabilities</p>
-          <h2 className="font-display text-3xl font-semibold text-white sm:text-4xl">Where Product Thinking Meets Data Execution</h2>
+          <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.16em] text-orchid">Expertise</p>
+          <h2 className="font-display text-3xl font-semibold text-white sm:text-4xl">Skills &amp; Expertise</h2>
         </AnimatedContent>
         <div className="grid gap-6 md:grid-cols-4">
           {skills.map((skill, index) => {
@@ -560,7 +560,7 @@ function Contact() {
         <AnimatedContent distance={48}>
           <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.16em] text-orchid">Contact</p>
           <h2 className="max-w-2xl font-display text-3xl font-semibold sm:text-4xl md:text-5xl">
-            Available for data product, BI product, and business analytics platform opportunities.
+            Open to Data &amp; Analytics Opportunities.
           </h2>
         </AnimatedContent>
         <AnimatedContent className="space-y-4 text-white/70" distance={48} delay={0.12}>
