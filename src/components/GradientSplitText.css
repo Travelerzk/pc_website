@@ -2,10 +2,14 @@
   display: inline-block;
   max-width: fit-content;
   color: transparent;
+  white-space: nowrap;
+  word-break: normal;
+  overflow-wrap: normal;
 }
 
 .gradient-split-text__char {
   display: inline-block;
+  font: inherit;
   background-image: var(--gradient-split-image);
   background-size: var(--gradient-split-width) 100%;
   background-position: calc(var(--gradient-split-offset) * -1) 50%;

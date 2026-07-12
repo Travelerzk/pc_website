@@ -18,6 +18,7 @@ export default {
         panelSoft: "#19172a"
       },
       fontFamily: {
+        signature: ["Great Vibes", "Manrope", "cursive"],
         display: ["Manrope", "Inter", "sans-serif"],
         body: ["Inter", "sans-serif"]
       },
