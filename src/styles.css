@@ -53,7 +53,13 @@ a {
 .hero-signature-name {
   font-family: "Great Vibes", cursive;
   font-weight: 400;
+  line-height: 1.18;
+  margin-top: -0.12em;
+  margin-bottom: -0.28em;
+  padding-top: 0.18em;
+  padding-bottom: 0.1em;
   white-space: nowrap;
   word-break: normal;
   overflow-wrap: normal;
+  overflow: visible;
 }

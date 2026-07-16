@@ -34,7 +34,11 @@ export function GradientSplitText({
 
     const measure = () => {
       const width = root.getBoundingClientRect().width;
-      const offsets = charRefs.current.map((char) => (char ? char.offsetLeft : 0));
+      const offsets = charRefs.current.map((char) => {
+        if (!char) return 0;
+        const paddingLeft = Number.parseFloat(getComputedStyle(char).paddingLeft || "0");
+        return char.offsetLeft + paddingLeft;
+      });
       setMetrics({ ready: width > 0, width, offsets });
     };
 
@@ -57,7 +61,7 @@ export function GradientSplitText({
       className={`gradient-split-text ${className}`}
       style={{
         "--gradient-split-image": `linear-gradient(to right, ${gradientColors})`,
-        "--gradient-split-width": `${Math.max(metrics.width, 1) * 3}px`,
+        "--gradient-split-width": `${Math.max(metrics.width, 1) * 3.35}px`,
         "--gradient-split-speed": `${animationSpeed}s`,
         "--gradient-split-delay": `${delay}ms`,
         "--gradient-split-duration": `${duration}s`,

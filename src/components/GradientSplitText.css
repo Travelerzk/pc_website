@@ -1,18 +1,29 @@
 .gradient-split-text {
+  --gradient-split-x-safe: 0.2em;
   display: inline-block;
   max-width: fit-content;
   color: transparent;
   white-space: nowrap;
   word-break: normal;
   overflow-wrap: normal;
+  overflow: visible;
 }
 
 .gradient-split-text__char {
   display: inline-block;
   font: inherit;
+  line-height: inherit;
+  padding-top: 0.34em;
+  padding-right: var(--gradient-split-x-safe);
+  padding-bottom: 0.12em;
+  padding-left: var(--gradient-split-x-safe);
+  margin-top: -0.34em;
+  margin-right: calc(var(--gradient-split-x-safe) * -1);
+  margin-bottom: -0.12em;
+  margin-left: calc(var(--gradient-split-x-safe) * -1);
   background-image: var(--gradient-split-image);
   background-size: var(--gradient-split-width) 100%;
-  background-position: calc(var(--gradient-split-offset) * -1) 50%;
+  background-position: calc(var(--gradient-split-offset) * -1) 52%;
   background-repeat: repeat;
   background-clip: text;
   -webkit-background-clip: text;
@@ -40,11 +51,11 @@
 
 @keyframes gradient-split-flow {
   from {
-    background-position: calc(var(--gradient-split-offset) * -1) 50%;
+    background-position: calc(var(--gradient-split-offset) * -1) 52%;
   }
 
   to {
-    background-position: calc(var(--gradient-split-width) - var(--gradient-split-offset)) 50%;
+    background-position: calc(var(--gradient-split-width) - var(--gradient-split-offset)) 52%;
   }
 }
 

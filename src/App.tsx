@@ -73,24 +73,24 @@ function GlowCard({
   delay?: number;
 }) {
   return (
-    <AnimatedContent distance={46} duration={0.78} threshold={0.16} delay={delay} scale={0.98} className={`w-full ${className}`}>
+    <AnimatedContent distance={46} duration={0.78} threshold={0.16} delay={delay} scale={0.98} className={`h-full w-full ${className}`}>
       <BorderGlow
-        className="w-full"
-        backgroundColor="rgba(25, 23, 42, 0.42)"
+        className="h-full w-full"
+        backgroundColor="rgba(22, 20, 35, 0.38)"
         glowColor="270 92 76"
         borderRadius={8}
         glowRadius={28}
-        glowIntensity={0.78}
+        glowIntensity={0.66}
         edgeSensitivity={24}
         coneSpread={24}
-        fillOpacity={0.14}
+        fillOpacity={0.1}
         colors={["#7c3aed", "#c084fc", "#38bdf8"]}
         animated={animated}
         tilt
-        tiltAmplitude={4.5}
-        tiltScale={1.025}
+        tiltAmplitude={3}
+        tiltScale={1.014}
       >
-        <div className="min-w-0 rounded-lg border border-white/15 bg-panelSoft/58 p-6 shadow-ambient backdrop-blur-2xl transition duration-300 ease-out hover:border-orchid/40 hover:bg-[#211d36]/68 sm:p-7">
+        <div className="relative h-full min-w-0 overflow-hidden rounded-lg bg-panelSoft/54 p-6 shadow-ambient backdrop-blur-2xl transition duration-300 ease-out before:absolute before:inset-x-0 before:top-0 before:h-[2px] before:bg-orchid/70 hover:bg-[#211d36]/62 hover:before:bg-orchid sm:p-7">
           {children}
         </div>
       </BorderGlow>
@@ -172,7 +172,7 @@ function Header() {
 
 function Hero() {
   return (
-    <section id="top" className="relative overflow-hidden bg-night px-4 pt-24 sm:px-5 md:px-8 md:pt-24">
+    <section id="top" className="relative overflow-hidden bg-night px-4 pt-24 sm:px-5 md:px-8 md:pt-[4.75rem]">
       <div className="pointer-events-none absolute inset-y-0 left-0 w-screen max-w-full opacity-75">
         <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-violet/20 via-night to-orchid/15" />}>
           <SoftAurora
@@ -195,7 +195,7 @@ function Hero() {
       </div>
       <div className="absolute inset-0 bg-gradient-to-r from-night via-night/74 to-night/42" />
       <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-night to-transparent" />
-      <div className="relative z-10 mx-auto grid min-h-[760px] w-full max-w-7xl grid-cols-1 items-center gap-10 pb-16 md:grid-cols-[1.16fr_0.84fr] md:gap-8 md:pb-20">
+      <div className="relative z-10 mx-auto grid min-h-[760px] w-full max-w-7xl grid-cols-1 items-center gap-10 pb-16 md:min-h-[720px] md:grid-cols-[minmax(0,0.62fr)_minmax(340px,0.38fr)] md:gap-4 md:pb-12 lg:gap-8">
         <AnimatedContent
           className="relative z-20 w-[calc(100vw-2rem)] min-w-0 overflow-hidden md:w-auto md:overflow-visible"
           distance={42}
@@ -214,12 +214,12 @@ function Hero() {
             delay={36}
             duration={0.95}
             distance={38}
-            className="hero-signature-name text-6xl leading-none sm:text-8xl md:text-9xl"
+            className="hero-signature-name text-6xl leading-none sm:text-8xl md:text-[6.5rem] lg:text-[7rem]"
           />
           <SplitText
             tag="h1"
             text="Portfolio"
-            className="mt-1 max-w-full whitespace-nowrap font-display text-[3.25rem] font-semibold uppercase leading-[0.82] text-white sm:text-[6rem] md:text-[6.4rem] lg:text-[7.2rem] xl:text-[8.35rem]"
+            className="mt-1 max-w-full whitespace-nowrap font-display text-[3.25rem] font-semibold uppercase leading-[0.82] text-white sm:text-[6rem] md:text-[5.7rem] lg:text-[6.25rem] xl:text-[6.8rem]"
             delay={48}
             duration={1.1}
             ease="expo.out"
@@ -230,13 +230,30 @@ function Hero() {
             rootMargin="0px"
             textAlign="left"
           />
-          <div className="mt-7 grid max-w-3xl gap-5 border-t border-white/25 pt-6 md:grid-cols-[0.44fr_0.56fr]">
+          <AnimatedContent
+            className="float-right ml-4 mt-3 block h-40 w-32 overflow-visible md:hidden"
+            distance={28}
+            direction="horizontal"
+            duration={0.85}
+            delay={0.08}
+            threshold={0.05}
+            scale={0.96}
+          >
+            <div className="relative h-full w-full overflow-visible">
+              <img
+                src="/assets/images/avatar-hero-embedded.png"
+                alt="Upper-body portrait of Zikang Chen"
+                className="absolute left-1/2 top-0 h-[118%] w-auto max-w-none -translate-x-[48%] object-contain object-top opacity-90 brightness-[0.72] contrast-[1.18] saturate-[0.62] [filter:drop-shadow(0_22px_48px_rgba(0,0,0,0.58))]"
+              />
+            </div>
+          </AnimatedContent>
+          <div className="mt-6 grid max-w-3xl gap-5 border-t border-white/25 pt-6 md:mt-4 md:grid-cols-[0.42fr_0.58fr] md:pt-5">
             <div>
               <p className="font-display text-2xl font-semibold text-white sm:text-3xl">Data Analyst</p>
             </div>
             <SplitText
               text={profile.headline}
-              className="max-w-[21.5rem] break-words text-base leading-8 text-mist [word-break:break-all] md:max-w-none md:[word-break:normal] md:text-lg"
+              className="max-w-[21.5rem] break-words text-base leading-7 text-mist [word-break:break-all] md:max-w-none md:[word-break:normal] md:text-base md:leading-7 lg:text-lg"
               delay={18}
               duration={0.9}
               ease="power3.out"
@@ -250,7 +267,7 @@ function Hero() {
           </div>
           <SplitText
             text={profile.summary}
-            className="mt-5 max-w-[21.5rem] break-words text-sm leading-8 text-white/70 [word-break:break-all] sm:max-w-[34rem] sm:text-base md:max-w-3xl md:[word-break:normal]"
+            className="mt-5 max-w-[21.5rem] break-words text-sm leading-7 text-white/70 [word-break:break-all] sm:max-w-[34rem] sm:text-base md:mt-3 md:max-w-[44rem] md:[word-break:normal] md:text-[0.95rem] md:leading-6"
             delay={10}
             duration={0.75}
             ease="power3.out"
@@ -261,19 +278,19 @@ function Hero() {
             rootMargin="0px"
             textAlign="left"
           />
-          <div className="mt-8 grid grid-cols-1 gap-3 sm:flex sm:flex-wrap">
+          <div className="mt-8 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap md:mt-4">
             {profile.tags.slice(0, 4).map((tag) => (
-              <span key={tag} className="min-w-0 rounded-md bg-white/10 px-3 py-2 text-center text-sm text-white/75 sm:text-left">
+              <span key={tag} className="min-w-0 rounded-md bg-white/10 px-3 py-2 text-center text-xs leading-5 text-white/75 sm:text-left sm:text-sm">
                 {tag}
               </span>
             ))}
           </div>
-          <div className="mt-10 flex flex-wrap gap-4">
-            <GlowButton href="#projects" animated>
+          <div className="mt-8 grid grid-cols-1 gap-3 sm:flex sm:flex-wrap md:mt-4">
+            <GlowButton href="#projects" className="w-full sm:w-auto" animated>
               View Projects
               <ArrowUpRight size={18} />
             </GlowButton>
-            <GlowButton href="#contact" variant="secondary">
+            <GlowButton href="#contact" variant="secondary" className="w-full sm:w-auto">
               <Download size={18} />
               Get Resume
             </GlowButton>
@@ -281,10 +298,10 @@ function Hero() {
         </AnimatedContent>
 
         <div
-          className="relative mx-auto w-[calc(100vw-2rem)] max-w-[680px] md:w-full md:translate-x-10 lg:translate-x-20"
+          className="relative mx-auto hidden w-[calc(100vw-2rem)] max-w-[680px] md:block md:w-full md:translate-x-2 lg:translate-x-8"
         >
-          <div className="group relative h-[500px] sm:h-[560px] md:h-[640px]">
-            <div className="absolute left-1/2 top-[4%] z-0 h-[26rem] w-[26rem] -translate-x-[42%] sm:h-[31rem] sm:w-[31rem] md:h-[36rem] md:w-[36rem]">
+          <div className="group relative h-[500px] sm:h-[560px] md:h-[560px] lg:h-[610px]">
+            <div className="absolute left-1/2 top-[10%] z-0 h-[26rem] w-[26rem] -translate-x-[42%] sm:h-[31rem] sm:w-[31rem] md:h-[28rem] md:w-[28rem] lg:h-[31rem] lg:w-[31rem]">
             <AnimatedContent
               className="h-full w-full"
               distance={72}
@@ -297,7 +314,7 @@ function Hero() {
             <div className="relative h-full w-full overflow-hidden rounded-full bg-orchid/[0.22] shadow-[0_34px_120px_rgba(0,0,0,0.42),0_0_110px_rgba(192,132,252,0.22)] backdrop-blur-sm">
               <div className="absolute inset-0 rounded-full bg-violet/[0.12]" />
               <svg
-                className="absolute left-1/2 top-[3%] h-56 w-56 -translate-x-[15%] text-orchid/82 sm:h-64 sm:w-64 md:h-80 md:w-80"
+                className="absolute left-1/2 top-[3%] h-56 w-56 -translate-x-[15%] text-orchid/82 sm:h-64 sm:w-64 md:h-64 md:w-64 lg:h-72 lg:w-72"
                 viewBox="0 0 240 240"
                 aria-hidden="true"
               >
@@ -315,7 +332,7 @@ function Hero() {
             </div>
             </AnimatedContent>
             </div>
-            <div className="absolute left-1/2 top-[-12%] z-30 h-[112%] w-auto max-w-none -translate-x-[48%] sm:top-[-16%] sm:h-[120%] md:top-[-20%] md:h-[128%]">
+            <div className="absolute left-1/2 top-[-12%] z-30 h-[112%] w-auto max-w-none -translate-x-[48%] sm:top-[-16%] sm:h-[120%] md:top-[-8%] md:h-[108%] lg:top-[-14%] lg:h-[116%]">
             <AnimatedContent
               className="h-full w-auto"
               distance={90}
@@ -341,23 +358,27 @@ function Hero() {
 
 function Method() {
   return (
-    <section className="bg-[#080611] px-4 py-20 sm:px-5 md:px-8 md:py-24">
+    <section className="bg-[#080611] px-4 py-16 sm:px-5 md:px-8 md:py-24">
       <div className="mx-auto max-w-7xl">
-        <AnimatedContent className="mb-12 w-full" distance={48}>
+        <AnimatedContent className="mb-10 w-full md:mb-12" distance={48}>
           <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.16em] text-orchid">Approach</p>
-          <h2 className="font-display text-3xl font-semibold text-white sm:text-4xl lg:whitespace-nowrap lg:text-[clamp(2.25rem,3vw,3rem)]">Transforming Business Requirements into Data Solutions</h2>
+          <h2 className="max-w-5xl font-display text-3xl font-semibold text-white sm:text-4xl lg:text-[clamp(2.25rem,3vw,3rem)]">Transforming Business Requirements into Data Solutions</h2>
         </AnimatedContent>
-        <div className="grid gap-5 md:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-4 md:gap-5">
           {methodCards.map((card, index) => {
             const Icon = card.icon;
             return (
-              <GlowCard key={card.label} animated={index === 0} delay={index * 0.08}>
-                <div className="mb-5 flex items-center justify-between">
-                  <Icon className="text-orchid" size={28} />
-                  <span className="font-display text-4xl text-white/5">0{index + 1}</span>
+              <GlowCard key={card.label} delay={index * 0.08}>
+                <div className="flex min-h-[168px] flex-col md:min-h-[184px]">
+                <div className="mb-6 flex items-center justify-between">
+                  <span className="grid h-10 w-10 place-items-center rounded-md border border-orchid/20 bg-orchid/10">
+                    <Icon className="text-orchid" size={22} />
+                  </span>
+                  <span className="font-display text-4xl text-white/[0.06]">0{index + 1}</span>
                 </div>
                 <h3 className="font-display text-xl font-semibold text-white">{card.label}</h3>
-                <p className="mt-2 text-sm leading-6 text-mist">{card.text}</p>
+                <p className="mt-3 text-sm leading-6 text-mist">{card.text}</p>
+                </div>
               </GlowCard>
             );
           })}
@@ -369,13 +390,13 @@ function Method() {
 
 function Metrics() {
   return (
-    <section className="bg-[#080611] px-4 py-12 text-white sm:px-5 md:px-8">
-      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-4">
+    <section className="bg-[#080611] px-4 py-12 text-white sm:px-5 md:px-8 md:py-14">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-5 gap-y-8 md:grid-cols-4 md:gap-x-10">
         {metrics.map((metric, index) => (
-          <AnimatedContent key={metric.label} delay={index * 0.08} distance={38} scale={0.98} className="py-4">
-            <div className="font-display text-3xl font-semibold sm:text-4xl md:text-5xl">{metric.value}</div>
-            <div className="mt-3 text-sm font-medium text-white/90">{metric.label}</div>
-            <div className="mt-1 text-xs text-mist">{metric.note}</div>
+          <AnimatedContent key={metric.label} delay={index * 0.08} distance={38} scale={0.98} className="border-b border-white/12 py-4 md:pb-6">
+            <div className="font-display text-3xl font-semibold leading-none sm:text-4xl md:text-5xl">{metric.value}</div>
+            <div className="mt-4 text-sm font-semibold text-white/90">{metric.label}</div>
+            <div className="mt-2 max-w-[15rem] text-xs leading-5 text-mist">{metric.note}</div>
           </AnimatedContent>
         ))}
       </div>
@@ -385,34 +406,36 @@ function Metrics() {
 
 function Projects() {
   return (
-    <section id="projects" className="relative overflow-hidden bg-night px-4 py-20 sm:px-5 md:px-8 md:py-24">
+    <section id="projects" className="relative overflow-hidden bg-night px-4 py-16 sm:px-5 md:px-8 md:py-24">
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#0a0715] via-[#080611]/70 to-transparent" />
       <div className="relative mx-auto max-w-7xl">
-        <AnimatedContent className="mb-14 max-w-2xl" distance={48}>
+        <AnimatedContent className="mb-10 max-w-2xl md:mb-14" distance={48}>
           <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.16em] text-orchid">Case Studies</p>
           <h2 className="font-display text-3xl font-semibold text-white sm:text-4xl md:text-5xl">Featured Data Projects</h2>
         </AnimatedContent>
-        <div className="grid gap-6 lg:grid-cols-3">
+        <div className="grid items-stretch gap-6 lg:grid-cols-3">
           {projects.map((project, index) => {
             const Icon = project.icon;
             return (
               <GlowCard key={project.id} delay={index * 0.1}>
-                <article className="flex min-h-full min-w-0 flex-col">
-                <div className="mb-6 flex items-start justify-between gap-4">
-                  <Icon className="text-orchid" size={34} />
-                  <span className="rounded-md bg-white/10 px-3 py-1 text-xs text-mist">{project.period}</span>
+                <article className="flex min-h-full min-w-0 flex-col lg:min-h-[620px]">
+                <div className="mb-7 flex min-h-11 items-start justify-between gap-4">
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-md border border-orchid/20 bg-orchid/10">
+                    <Icon className="text-orchid" size={24} />
+                  </span>
+                  <span className="shrink-0 rounded-md border border-white/10 bg-white/[0.07] px-3 py-1 text-right text-xs leading-5 text-mist">{project.period}</span>
                 </div>
                 <h3 className="font-display text-2xl font-semibold text-white">{project.title}</h3>
-                <p className="mt-2 text-sm font-medium text-orchid">{project.subtitle}</p>
-                <p className="mt-5 text-sm leading-6 text-mist">{project.problem}</p>
-                <div className="mt-6 space-y-3">
+                <p className="mt-3 text-sm font-medium leading-6 text-orchid">{project.subtitle}</p>
+                <p className="mt-6 text-sm leading-6 text-mist">{project.problem}</p>
+                <div className="mt-6 space-y-3 border-l border-orchid/25 pl-4">
                   {project.actions.map((action) => (
                     <p key={action} className="text-sm leading-6 text-white/72">- {action}</p>
                   ))}
                 </div>
-                <div className="mt-7 flex flex-wrap gap-2">
+                <div className="mt-auto flex flex-wrap gap-2 pt-8">
                   {project.impact.map((item) => (
-                    <span key={item} className="rounded-md bg-white/10 px-3 py-2 text-xs text-white/80">{item}</span>
+                    <span key={item} className="rounded-md border border-white/10 bg-white/[0.07] px-3 py-2 text-xs leading-4 text-white/80">{item}</span>
                   ))}
                 </div>
                 </article>
@@ -435,7 +458,7 @@ function Experience() {
       <div className="pointer-events-none absolute inset-x-0 top-0 h-56 bg-gradient-to-b from-night via-[#0b0817]/80 to-transparent" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-night via-[#090817]/70 to-transparent" />
       <div className="relative mx-auto max-w-7xl space-y-16">
-        <div className="grid gap-10 md:grid-cols-[0.32fr_0.68fr]">
+        <div className="grid gap-10 md:grid-cols-[0.3fr_0.7fr]">
           <AnimatedContent distance={48}>
             <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.16em] text-orchid">Career</p>
             <h2 className="font-display text-3xl font-semibold text-white sm:text-4xl">Work Experience</h2>
@@ -447,8 +470,8 @@ function Experience() {
 
               return (
                 <GlowCard key={item.org} delay={index * 0.08}>
-                  <article className="flex min-h-[238px] min-w-0 flex-col">
-                    <div className="mb-7 flex min-h-12 items-start justify-between gap-4">
+                  <article className="flex min-h-[248px] min-w-0 flex-col">
+                    <div className="mb-6 flex min-h-12 items-start justify-between gap-4">
                       {logo ? (
                         <img
                           className="max-h-12 w-28 object-contain object-left opacity-90 drop-shadow-[0_0_18px_rgba(56,189,248,0.18)]"
@@ -466,7 +489,7 @@ function Experience() {
                         </span>
                       ) : null}
                     </div>
-                    <h3 className="font-display text-2xl font-semibold text-white">{item.org}</h3>
+                    <h3 className="font-display text-2xl font-semibold leading-tight text-white">{item.org}</h3>
                     {item.org !== item.title ? <p className="mt-2 text-sm font-medium text-orchid">{item.title}</p> : null}
                     {meta.context ? <p className="mt-2 text-sm text-mist">{meta.context}</p> : null}
                     {item.description ? <p className="mt-5 text-sm leading-6 text-white/72">{item.description}</p> : null}
@@ -477,7 +500,7 @@ function Experience() {
           </div>
         </div>
 
-        <div className="grid gap-10 md:grid-cols-[0.32fr_0.68fr]">
+        <div className="grid gap-10 md:grid-cols-[0.3fr_0.7fr]">
           <AnimatedContent distance={48}>
             <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.16em] text-sky-300">Academic</p>
             <h2 className="font-display text-3xl font-semibold text-white sm:text-4xl">Education</h2>
@@ -489,8 +512,8 @@ function Experience() {
 
               return (
                 <GlowCard key={item.school} delay={0.12 + index * 0.08}>
-                  <article className="flex min-h-[238px] min-w-0 flex-col">
-                    <div className="mb-7 flex min-h-16 items-start justify-between gap-4">
+                  <article className="flex min-h-[220px] min-w-0 flex-col">
+                    <div className="mb-6 flex min-h-16 items-start justify-between gap-4">
                       {logo ? (
                         <img
                           className="h-14 w-14 object-contain object-left opacity-85 drop-shadow-[0_0_18px_rgba(192,132,252,0.18)] sm:h-16 sm:w-16"
@@ -504,7 +527,7 @@ function Experience() {
                         </span>
                       ) : null}
                     </div>
-                    <h3 className="font-display text-xl font-semibold text-white">{item.school}</h3>
+                    <h3 className="font-display text-xl font-semibold leading-tight text-white">{item.school}</h3>
                     <p className="mt-2 text-sm font-medium text-orchid">{item.degree}</p>
                     {meta.context ? <p className="mt-2 text-sm text-mist">{meta.context}</p> : null}
                     {item.note ? <p className="mt-4 text-sm leading-6 text-white/70">{item.note}</p> : null}
@@ -521,25 +544,27 @@ function Experience() {
 
 function Skills() {
   return (
-    <section id="skills" className="relative overflow-hidden bg-night px-4 py-20 sm:px-5 md:px-8 md:py-24">
+    <section id="skills" className="relative overflow-hidden bg-night px-4 py-16 sm:px-5 md:px-8 md:py-24">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#090817] via-night/80 to-transparent" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#080611] via-night/75 to-transparent" />
       <div className="relative mx-auto max-w-7xl">
-        <AnimatedContent className="mb-12 max-w-2xl" distance={48}>
+        <AnimatedContent className="mb-10 max-w-2xl md:mb-12" distance={48}>
           <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.16em] text-orchid">Expertise</p>
           <h2 className="font-display text-3xl font-semibold text-white sm:text-4xl">Skills &amp; Expertise</h2>
         </AnimatedContent>
-        <div className="grid gap-6 md:grid-cols-4">
+        <div className="grid items-stretch gap-6 md:grid-cols-2 lg:grid-cols-4">
           {skills.map((skill, index) => {
             const Icon = skill.icon;
             return (
               <GlowCard key={skill.title} delay={index * 0.08}>
-              <article className="min-w-0">
-                <Icon className="text-orchid" size={30} />
+              <article className="flex min-h-[220px] min-w-0 flex-col">
+                <span className="grid h-11 w-11 place-items-center rounded-md border border-orchid/20 bg-orchid/10">
+                  <Icon className="text-orchid" size={24} />
+                </span>
                 <h3 className="mt-5 font-display text-xl font-semibold text-white">{skill.title}</h3>
-                <div className="mt-5 space-y-2">
+                <div className="mt-5 flex flex-wrap gap-2">
                   {skill.items.map((item) => (
-                    <p key={item} className="text-sm text-mist">{item}</p>
+                    <span key={item} className="rounded-md border border-white/10 bg-white/[0.06] px-3 py-2 text-xs leading-4 text-mist">{item}</span>
                   ))}
                 </div>
               </article>
@@ -554,9 +579,9 @@ function Skills() {
 
 function Contact() {
   return (
-    <section id="contact" className="relative overflow-hidden bg-[#080611] px-4 py-20 text-white sm:px-5 md:px-8">
+    <section id="contact" className="relative overflow-hidden bg-[#080611] px-4 py-20 text-white sm:px-5 md:px-8 md:py-24">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-night via-[#080611]/80 to-transparent" />
-      <div className="relative mx-auto flex max-w-7xl flex-col justify-between gap-10 md:flex-row md:items-end">
+      <div className="relative mx-auto flex max-w-7xl flex-col justify-between gap-10 border-t border-white/10 pt-12 md:flex-row md:items-end">
         <AnimatedContent distance={48}>
           <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.16em] text-orchid">Contact</p>
           <h2 className="max-w-2xl font-display text-3xl font-semibold sm:text-4xl md:text-5xl">
