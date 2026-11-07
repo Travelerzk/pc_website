@@ -160,6 +160,7 @@ function Header() {
           <a className="hover:text-orchid" href="#experience">Experience</a>
           <a className="hover:text-orchid" href="#skills">Skills</a>
           <a className="hover:text-orchid" href="#contact">Contact</a>
+          <a className="hover:text-orchid" href="/stock/">Stock</a>
         </div>
         <GlowButton href="#contact" className="hidden sm:inline-grid" ariaLabel="Contact">
           <Mail size={16} />
