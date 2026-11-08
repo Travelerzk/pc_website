@@ -5,16 +5,52 @@
 @tailwind utilities;
 
 :root {
-  color: #f8f7ff;
-  background: #05030a;
+  color-scheme: dark;
+  --c-bg: 5 3 10;
+  --c-bg-alt: 8 6 17;
+  --c-bg-deep: 10 7 21;
+  --c-fg: 255 255 255;
+  --c-muted: 167 163 184;
+  --c-quiet: 128 128 138;
+  --c-accent: 192 132 252;
+  --c-accent-strong: 139 92 246;
+  --c-info: 125 211 252;
+  --c-card: 22 20 35;
+  --c-surface: 17 16 26;
+  --c-selection: 139 92 246;
+  --hero-name-1: #ffffff;
+  --hero-name-2: #c084fc;
+  --hero-name-3: #7c3aed;
+  color: rgb(var(--c-fg));
+  background: rgb(var(--c-bg));
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+[data-theme="light"] {
+  color-scheme: light;
+  --c-bg: 247 244 237;
+  --c-bg-alt: 240 236 227;
+  --c-bg-deep: 243 239 231;
+  --c-fg: 43 49 50;
+  --c-muted: 92 91 86;
+  --c-quiet: 119 115 107;
+  --c-accent: 115 91 55;
+  --c-accent-strong: 43 49 50;
+  --c-info: 47 111 106;
+  --c-card: 255 253 248;
+  --c-surface: 255 253 248;
+  --c-selection: 115 91 55;
+  --hero-name-1: #2b3132;
+  --hero-name-2: #8a6a3a;
+  --hero-name-3: #5c4526;
+}
+
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
   overflow-x: hidden;
 }
 
@@ -24,6 +60,9 @@ body {
   max-width: 100vw;
   overflow-x: hidden;
   font-family: Inter, sans-serif;
+  background: rgb(var(--c-bg));
+  color: rgb(var(--c-fg));
+  transition: background-color 180ms ease, color 180ms ease;
 }
 
 #root {
@@ -46,8 +85,8 @@ a {
 }
 
 ::selection {
-  background: #8b5cf6;
-  color: white;
+  background: rgb(var(--c-selection));
+  color: #ffffff;
 }
 
 .hero-signature-name {
@@ -62,4 +101,228 @@ a {
   word-break: normal;
   overflow-wrap: normal;
   overflow: visible;
+}
+
+/* ---------- Section surfaces ---------- */
+
+.hero-surface {
+  background-color: rgb(var(--c-bg));
+}
+
+[data-theme="light"] .hero-surface {
+  background-image:
+    radial-gradient(ellipse at 78% 8%, rgb(176 141 87 / 16%), transparent 48%),
+    radial-gradient(ellipse at 12% 92%, rgb(176 141 87 / 8%), transparent 46%);
+}
+
+/* Keep the warm aurora behind the portrait, off the reading column. */
+.aurora-light {
+  opacity: 0.5;
+  -webkit-mask-image: linear-gradient(to right, transparent 30%, #000 70%);
+  mask-image: linear-gradient(to right, transparent 30%, #000 70%);
+}
+
+@media (max-width: 767px) {
+  .aurora-light {
+    opacity: 0.35;
+    -webkit-mask-image: linear-gradient(to right, transparent 55%, #000 88%);
+    mask-image: linear-gradient(to right, transparent 55%, #000 88%);
+  }
+}
+
+.experience-surface {
+  background:
+    radial-gradient(circle at 14% 16%, rgb(124 58 237 / 24%), transparent 30%),
+    radial-gradient(circle at 86% 42%, rgb(14 165 233 / 16%), transparent 28%),
+    linear-gradient(135deg, #080611 0%, #111827 48%, #090817 100%);
+}
+
+[data-theme="light"] .experience-surface {
+  background:
+    radial-gradient(circle at 14% 16%, rgb(138 106 58 / 12%), transparent 36%),
+    radial-gradient(circle at 86% 42%, rgb(47 111 106 / 8%), transparent 32%),
+    linear-gradient(135deg, #f0ece3 0%, #f7f4ed 48%, #f0ece3 100%);
+}
+
+.experience-grid {
+  background-image:
+    linear-gradient(rgb(255 255 255 / 3.5%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 3.5%) 1px, transparent 1px);
+  background-size: 88px 88px;
+}
+
+[data-theme="light"] .experience-grid {
+  background-image:
+    linear-gradient(rgb(45 52 53 / 5%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(45 52 53 / 5%) 1px, transparent 1px);
+}
+
+/* ---------- Glass cards ---------- */
+
+[data-theme="light"] .glow-card {
+  background: #fffdf8;
+  border-color: #e6dfd1;
+  box-shadow: 0 18px 44px rgb(90 70 40 / 10%);
+}
+
+/* Keep the cursor-following border arc readable even mid-card (dark fades it to 0). */
+[data-theme="light"] .glow-card:hover::before {
+  opacity: max(calc((var(--edge-proximity) - var(--color-sensitivity)) / (100 - var(--color-sensitivity))), 0.35);
+}
+
+/* Neutral ink rim instead of the amber border gradient. */
+[data-theme="light"] .glow-card::before {
+  background:
+    linear-gradient(var(--card-bg, #fffdf8) 0 100%) padding-box,
+    linear-gradient(rgb(43 49 50 / 55%) 0 100%) border-box;
+}
+
+/* Glass sheen only: white specular + a faint neutral shade, no amber fill. */
+[data-theme="light"] .glow-card::after {
+  background:
+    radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgb(255 255 255 / 90%) 0%, rgb(255 255 255 / 40%) 14%, transparent 34%) padding-box,
+    linear-gradient(135deg, rgb(255 255 255 / 80%) 0%, transparent 46%, rgb(43 49 50 / 4%) 100%) padding-box;
+}
+
+[data-theme="light"] .glow-card > .edge-light {
+  display: none;
+}
+
+/* Neutral 2px top rule (the amber `bg-orchid` bar read as brown on paper). */
+[data-theme="light"] .glow-card .border-glow-inner > div::before {
+  background: rgb(43 49 50 / 38%);
+}
+
+[data-theme="light"] .glow-card:hover .border-glow-inner > div::before {
+  background: rgb(43 49 50 / 55%);
+}
+
+/* screen / plus-lighter are invisible over paper, so light mode uses normal blending. */
+[data-theme="light"] .glow-card::after,
+[data-theme="light"] .glow-button::after,
+[data-theme="light"] .glow-card > .edge-light,
+[data-theme="light"] .glow-button > .edge-light {
+  mix-blend-mode: normal;
+}
+
+[data-theme="light"] .glow-button::after {
+  background:
+    radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgb(255 255 255 / 100%) 0%, rgb(255 255 255 / 80%) 4%, rgb(255 255 255 / 35%) 12%, transparent 24%) padding-box,
+    radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgb(255 205 110 / 100%) 0%, rgb(255 205 110 / 60%) 20%, transparent 55%) padding-box,
+    radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgb(255 190 90 / 35%), transparent 72%) padding-box,
+    conic-gradient(from var(--cursor-angle) at var(--cursor-x) var(--cursor-y), transparent 0deg, rgb(255 200 100 / 32%) 38deg, transparent 92deg) padding-box,
+    linear-gradient(135deg, rgb(255 255 255 / 28%), transparent 42%, rgb(255 196 92 / 16%) 100%) padding-box,
+    linear-gradient(rgb(255 250 240 / 92%) 0 100%) padding-box;
+}
+
+[data-theme="light"] .border-glow-card > .edge-light::before {
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 90%),
+    inset 0 0 5px 1px rgb(255 236 196 / 90%),
+    inset 0 0 16px 3px rgb(246 205 124 / 65%),
+    0 0 7px 1px rgb(244 198 110 / 75%),
+    0 0 22px 5px rgb(244 198 110 / 50%),
+    0 0 56px 12px rgb(244 198 110 / 30%);
+}
+
+[data-theme="light"] .glow-button > .edge-light::before {
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 95%),
+    inset 0 0 8px 2px rgb(255 231 176 / 95%),
+    inset 0 0 20px 4px rgb(246 205 124 / 75%),
+    0 0 12px 3px rgb(246 200 110 / 80%),
+    0 0 34px 10px rgb(246 200 110 / 55%),
+    0 0 80px 24px rgb(246 200 110 / 32%);
+}
+
+/* ---------- Buttons ---------- */
+
+[data-theme="light"] .glow-button {
+  background: transparent;
+}
+
+[data-theme="light"] .glow-btn-primary {
+  background: #2b3132;
+  border-color: #2b3132;
+  color: #f7f4ed;
+  box-shadow:
+    0 10px 28px rgb(43 49 50 / 18%),
+    0 0 24px rgb(246 200 110 / 55%),
+    0 0 56px rgb(246 200 110 / 30%);
+}
+
+[data-theme="light"] .glow-btn-primary:hover {
+  background: #111827;
+  border-color: #111827;
+  color: #f7f4ed;
+}
+
+[data-theme="light"] .glow-btn-secondary {
+  background: #fffdf8;
+  border-color: #ded6c6;
+  color: #2b3132;
+  box-shadow: 0 6px 20px rgb(43 49 50 / 8%), 0 0 20px rgb(246 200 110 / 28%);
+}
+
+[data-theme="light"] .glow-btn-secondary:hover {
+  background: #fffaf0;
+  border-color: #8a6a3a;
+  color: #735b37;
+}
+
+/* ---------- Hero artwork ---------- */
+
+.hero-portrait {
+  opacity: 0.95;
+  filter: brightness(0.72) contrast(1.2) saturate(0.62) drop-shadow(0 34px 86px rgb(0 0 0 / 64%));
+}
+
+.hero-portrait-mobile {
+  opacity: 0.9;
+  filter: brightness(0.72) contrast(1.18) saturate(0.62) drop-shadow(0 22px 48px rgb(0 0 0 / 58%));
+}
+
+[data-theme="light"] .hero-portrait,
+[data-theme="light"] .hero-portrait-mobile {
+  opacity: 1;
+  filter: drop-shadow(0 18px 40px rgb(90 70 40 / 22%)) saturate(0.92);
+}
+
+.hero-disc {
+  background: rgb(192 132 252 / 22%);
+  box-shadow:
+    0 34px 120px rgb(0 0 0 / 42%),
+    0 0 110px rgb(192 132 252 / 22%);
+}
+
+[data-theme="light"] .hero-disc {
+  background: rgb(176 141 87 / 10%);
+  box-shadow:
+    0 30px 96px rgb(90 70 40 / 16%),
+    0 0 96px rgb(176 141 87 / 16%);
+}
+
+.hero-disc-shadow {
+  background: transparent;
+}
+
+.hero-ring {
+  color: rgb(192 132 252 / 80%);
+}
+
+[data-theme="light"] .hero-ring {
+  color: rgb(107 83 48 / 78%);
+}
+
+.logo-glow-cyan {
+  filter: drop-shadow(0 0 18px rgb(56 189 248 / 18%));
+}
+
+.logo-glow-violet {
+  filter: drop-shadow(0 0 18px rgb(192 132 252 / 18%));
+}
+
+[data-theme="light"] .logo-glow-cyan,
+[data-theme="light"] .logo-glow-violet {
+  filter: drop-shadow(0 0 14px rgb(138 106 58 / 22%));
 }

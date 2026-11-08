@@ -7,6 +7,30 @@
       name="description"
       content="Steven Chan portfolio"
     />
+    <meta name="theme-color" content="#05030a" />
+    <script>
+      (function () {
+        try {
+          var requested = new URLSearchParams(window.location.search).get("theme");
+          var stored = localStorage.getItem("theme");
+          var prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+          var theme = requested === "light" || requested === "dark"
+            ? requested
+            : stored === "light" || stored === "dark"
+              ? stored
+              : prefersLight
+                ? "light"
+                : "dark";
+          var root = document.documentElement;
+          root.dataset.theme = theme;
+          root.style.colorScheme = theme;
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute("content", theme === "light" ? "#f7f4ed" : "#05030a");
+        } catch (error) {
+          document.documentElement.dataset.theme = "dark";
+        }
+      })();
+    </script>
     <title>Steven Chan</title>
   </head>
   <body>

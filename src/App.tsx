@@ -1,5 +1,5 @@
-import { lazy, Suspense, type ReactNode } from "react";
-import { ArrowUpRight, Download, Mail, MapPin } from "lucide-react";
+﻿import { lazy, Suspense, type ReactNode } from "react";
+import { ArrowUpRight, Download, Mail, MapPin, Moon, Sun } from "lucide-react";
 import { AnimatedContent } from "./components/AnimatedContent";
 import { BorderGlow } from "./components/BorderGlow";
 import { GradientSplitText } from "./components/GradientSplitText";
@@ -13,6 +13,7 @@ import {
   projects,
   skills
 } from "./data/portfolio";
+import { setTheme, useTheme } from "./hooks/useTheme";
 
 const SoftAurora = lazy(() =>
   import("./components/SoftAurora").then((module) => ({ default: module.SoftAurora }))
@@ -34,24 +35,34 @@ function GlowButton({
   animated?: boolean;
 }) {
   const isPrimary = variant === "primary";
+  const theme = useTheme();
+  const isDark = theme === "dark";
   return (
       <BorderGlow
-        className={className}
-        backgroundColor={isPrimary ? "rgba(124, 58, 237, 0.34)" : "rgba(21, 18, 37, 0.36)"}
-      glowColor="270 92 76"
+        className={`glow-button ${className}`}
+        backgroundColor={
+          isDark
+            ? isPrimary
+              ? "rgba(124, 58, 237, 0.34)"
+              : "rgba(21, 18, 37, 0.36)"
+            : isPrimary
+              ? "#2b3132"
+              : "#fffdf8"
+        }
+      glowColor={isDark ? "270 92 76" : "42 90 68"}
       borderRadius={8}
       glowRadius={24}
-      glowIntensity={0.9}
+      glowIntensity={isDark ? 0.9 : 0.85}
       edgeSensitivity={26}
       coneSpread={22}
       fillOpacity={isPrimary ? 0.22 : 0.12}
-      colors={["#7c3aed", "#c084fc", "#38bdf8"]}
+      colors={isDark ? ["#7c3aed", "#c084fc", "#38bdf8"] : ["#b07d22", "#dfae4e", "#f6dfae"]}
       animated={animated}
     >
       <a
-        className={`inline-flex h-full w-full items-center justify-center gap-2 rounded-md border border-white/15 px-5 py-3 font-medium shadow-ambient backdrop-blur-2xl transition ${
-          isPrimary ? "bg-violet/[0.55] text-white hover:bg-violet/70" : "bg-white/[0.08] text-white hover:bg-white/[0.12] hover:text-orchid"
-        }`}
+        className={`glow-btn ${
+          isPrimary ? "glow-btn-primary bg-violet/[0.55] text-paper hover:bg-violet/70" : "glow-btn-secondary bg-white/[0.08] text-white hover:bg-white/[0.12] hover:text-orchid"
+        } inline-flex h-full w-full items-center justify-center gap-2 rounded-md border border-white/15 px-5 py-3 font-medium shadow-ambient backdrop-blur-2xl transition`}
         href={href}
         aria-label={ariaLabel}
       >
@@ -72,29 +83,49 @@ function GlowCard({
   animated?: boolean;
   delay?: number;
 }) {
+  const theme = useTheme();
+  const isDark = theme === "dark";
   return (
     <AnimatedContent distance={46} duration={0.78} threshold={0.16} delay={delay} scale={0.98} className={`h-full w-full ${className}`}>
       <BorderGlow
-        className="h-full w-full"
-        backgroundColor="rgba(22, 20, 35, 0.38)"
-        glowColor="270 92 76"
+        className="glow-card h-full w-full"
+        backgroundColor={isDark ? "rgba(22, 20, 35, 0.38)" : "#fffdf8"}
+        glowColor={isDark ? "270 92 76" : "42 90 68"}
         borderRadius={8}
         glowRadius={28}
-        glowIntensity={0.66}
+        glowIntensity={isDark ? 0.66 : 0.8}
         edgeSensitivity={24}
         coneSpread={24}
-        fillOpacity={0.1}
-        colors={["#7c3aed", "#c084fc", "#38bdf8"]}
+        fillOpacity={isDark ? 0.1 : 0.36}
+        colors={isDark ? ["#7c3aed", "#c084fc", "#38bdf8"] : ["#b07d22", "#dfae4e", "#f6dfae"]}
         animated={animated}
         tilt
         tiltAmplitude={3}
         tiltScale={1.014}
       >
-        <div className="relative h-full min-w-0 overflow-hidden rounded-lg bg-panelSoft/54 p-6 shadow-ambient backdrop-blur-2xl transition duration-300 ease-out before:absolute before:inset-x-0 before:top-0 before:h-[2px] before:bg-orchid/70 hover:bg-[#211d36]/62 hover:before:bg-orchid sm:p-7">
+        <div className="relative h-full min-w-0 overflow-hidden rounded-lg p-6 shadow-ambient backdrop-blur-2xl transition duration-300 ease-out before:absolute before:inset-x-0 before:top-0 before:h-[2px] before:bg-orchid/70 hover:before:bg-orchid sm:p-7">
           {children}
         </div>
       </BorderGlow>
     </AnimatedContent>
+  );
+}
+
+function ThemeToggle() {
+  const theme = useTheme();
+  const isDark = theme === "dark";
+
+  return (
+    <button
+      type="button"
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      aria-label="Dark mode"
+      aria-pressed={isDark}
+      title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      className="grid h-10 w-10 shrink-0 place-items-center rounded-md border border-white/15 bg-white/[0.06] text-mist transition hover:border-orchid/40 hover:text-orchid focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orchid"
+    >
+      {isDark ? <Sun size={17} aria-hidden="true" /> : <Moon size={17} aria-hidden="true" />}
+    </button>
   );
 }
 
@@ -162,39 +193,59 @@ function Header() {
           <a className="hover:text-orchid" href="#contact">Contact</a>
           <a className="hover:text-orchid" href="/stock/">Stock</a>
         </div>
-        <GlowButton href="#contact" className="hidden sm:inline-grid" ariaLabel="Contact">
-          <Mail size={16} />
-          <span>Contact</span>
-        </GlowButton>
+        <div className="flex items-center gap-2">
+          <GlowButton href="#contact" className="hidden sm:inline-grid" ariaLabel="Contact">
+            <Mail size={16} />
+            <span>Contact</span>
+          </GlowButton>
+          <ThemeToggle />
+        </div>
       </nav>
     </header>
   );
 }
 
 function Hero() {
+  const theme = useTheme();
+
   return (
-    <section id="top" className="relative overflow-hidden bg-night px-4 pt-24 sm:px-5 md:px-8 md:pt-[4.75rem]">
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-screen max-w-full opacity-75">
-        <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-violet/20 via-night to-orchid/15" />}>
+    <section id="top" className="hero-surface relative overflow-hidden bg-night px-4 pt-24 sm:px-5 md:px-8 md:pt-[4.75rem]">
+      <div
+        className={`pointer-events-none absolute inset-y-0 left-0 w-screen max-w-full ${
+          theme === "dark" ? "opacity-75" : "aurora-light"
+        }`}
+        aria-hidden="true"
+      >
+        <Suspense
+          fallback={
+            <div
+              className={`absolute inset-0 bg-gradient-to-br ${
+                theme === "dark"
+                  ? "from-violet/20 via-night to-orchid/15"
+                  : "from-[#e8dfcf] via-[#f7f4ed] to-[#efe6d6]"
+              }`}
+            />
+          }
+        >
           <SoftAurora
-            speed={0.72}
+            speed={theme === "dark" ? 0.72 : 0.5}
             scale={1.7}
-            brightness={1.65}
-            color1="#8b5cf6"
-            color2="#c084fc"
+            brightness={theme === "dark" ? 1.65 : 1.2}
+            color1={theme === "dark" ? "#8b5cf6" : "#e8b877"}
+            color2={theme === "dark" ? "#c084fc" : "#b8803f"}
             noiseFrequency={2.1}
-            noiseAmplitude={0.95}
-            bandHeight={0.52}
-            bandSpread={1.05}
+            noiseAmplitude={theme === "dark" ? 0.95 : 0.75}
+            bandHeight={theme === "dark" ? 0.52 : 0.5}
+            bandSpread={theme === "dark" ? 1.05 : 1}
             octaveDecay={0.14}
             layerOffset={0.42}
-            colorSpeed={0.28}
+            colorSpeed={theme === "dark" ? 0.28 : 0.2}
             enableMouseInteraction={true}
-            mouseInfluence={0.12}
+            mouseInfluence={theme === "dark" ? 0.12 : 0.1}
           />
         </Suspense>
       </div>
-      <div className="absolute inset-0 bg-gradient-to-r from-night via-night/74 to-night/42" />
+      <div className="absolute inset-0 bg-gradient-to-r from-night to-transparent" />
       <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-night to-transparent" />
       <div className="relative z-10 mx-auto grid min-h-[760px] w-full max-w-7xl grid-cols-1 items-center gap-10 pb-16 md:min-h-[720px] md:grid-cols-[minmax(0,0.62fr)_minmax(340px,0.38fr)] md:gap-4 md:pb-12 lg:gap-8">
         <AnimatedContent
@@ -206,11 +257,11 @@ function Hero() {
           <div className="mb-5 flex flex-wrap items-center gap-3 font-body text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-orchid sm:text-xs">
             <span className="h-px w-10 bg-orchid/70" />
             <span>Data Analyst</span>
-            <span className="text-white/35">Portfolio 2026</span>
+            <span className="text-quiet">Portfolio 2026</span>
           </div>
           <GradientSplitText
             text="Steven Chan"
-            colors={["#ffffff", "#c084fc", "#7C3AED", "#c084fc", "#ffffff"]}
+            colors={["var(--hero-name-1)", "var(--hero-name-2)", "var(--hero-name-3)", "var(--hero-name-2)", "var(--hero-name-1)"]}
             animationSpeed={5}
             delay={36}
             duration={0.95}
@@ -244,7 +295,7 @@ function Hero() {
               <img
                 src="/assets/images/avatar-hero-embedded.png"
                 alt="Upper-body portrait of Zikang Chen"
-                className="absolute left-1/2 top-0 h-[118%] w-auto max-w-none -translate-x-[48%] object-contain object-top opacity-90 brightness-[0.72] contrast-[1.18] saturate-[0.62] [filter:drop-shadow(0_22px_48px_rgba(0,0,0,0.58))]"
+                className="hero-portrait-mobile absolute left-1/2 top-0 h-[118%] w-auto max-w-none -translate-x-[48%] object-contain object-top"
               />
             </div>
           </AnimatedContent>
@@ -312,10 +363,10 @@ function Hero() {
               threshold={0.05}
               scale={0.94}
             >
-            <div className="relative h-full w-full overflow-hidden rounded-full bg-orchid/[0.22] shadow-[0_34px_120px_rgba(0,0,0,0.42),0_0_110px_rgba(192,132,252,0.22)] backdrop-blur-sm">
+            <div className="hero-disc relative h-full w-full overflow-hidden rounded-full backdrop-blur-sm">
               <div className="absolute inset-0 rounded-full bg-violet/[0.12]" />
               <svg
-                className="absolute left-1/2 top-[3%] h-56 w-56 -translate-x-[15%] text-orchid/82 sm:h-64 sm:w-64 md:h-64 md:w-64 lg:h-72 lg:w-72"
+                className="hero-ring absolute left-1/2 top-[3%] h-56 w-56 -translate-x-[15%] text-orchid/80 sm:h-64 sm:w-64 md:h-64 md:w-64 lg:h-72 lg:w-72"
                 viewBox="0 0 240 240"
                 aria-hidden="true"
               >
@@ -328,7 +379,6 @@ function Hero() {
                   </textPath>
                 </text>
               </svg>
-              <div className="absolute bottom-2 left-1/2 h-48 w-[72%] -translate-x-[43%] rounded-full bg-black/58 blur-3xl" />
               <div className="absolute inset-0 rounded-full bg-orchid/[0.08] mix-blend-screen" />
             </div>
             </AnimatedContent>
@@ -346,7 +396,7 @@ function Hero() {
             <img
               src="/assets/images/avatar-hero-embedded.png"
               alt="Upper-body portrait of Zikang Chen"
-              className="h-full w-auto max-w-none object-contain object-top opacity-95 brightness-[0.72] contrast-[1.2] saturate-[0.62] transition duration-500 ease-out [filter:drop-shadow(0_34px_86px_rgba(0,0,0,0.64))] group-hover:scale-[1.05]"
+              className="hero-portrait h-full w-auto max-w-none object-contain object-top transition duration-500 ease-out group-hover:scale-[1.05]"
             />
             </AnimatedContent>
             </div>
@@ -359,7 +409,7 @@ function Hero() {
 
 function Method() {
   return (
-    <section className="bg-[#080611] px-4 py-16 sm:px-5 md:px-8 md:py-24">
+    <section className="bg-dusk px-4 py-16 sm:px-5 md:px-8 md:py-24">
       <div className="mx-auto max-w-7xl">
         <AnimatedContent className="mb-10 w-full md:mb-12" distance={48}>
           <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.16em] text-orchid">Approach</p>
@@ -391,10 +441,10 @@ function Method() {
 
 function Metrics() {
   return (
-    <section className="bg-[#080611] px-4 py-12 text-white sm:px-5 md:px-8 md:py-14">
+    <section className="bg-dusk px-4 py-12 text-white sm:px-5 md:px-8 md:py-14">
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-5 gap-y-8 md:grid-cols-4 md:gap-x-10">
         {metrics.map((metric, index) => (
-          <AnimatedContent key={metric.label} delay={index * 0.08} distance={38} scale={0.98} className="border-b border-white/12 py-4 md:pb-6">
+          <AnimatedContent key={metric.label} delay={index * 0.08} distance={38} scale={0.98} className="border-b border-white/10 py-4 md:pb-6">
             <div className="font-display text-3xl font-semibold leading-none sm:text-4xl md:text-5xl">{metric.value}</div>
             <div className="mt-4 text-sm font-semibold text-white/90">{metric.label}</div>
             <div className="mt-2 max-w-[15rem] text-xs leading-5 text-mist">{metric.note}</div>
@@ -408,7 +458,7 @@ function Metrics() {
 function Projects() {
   return (
     <section id="projects" className="relative overflow-hidden bg-night px-4 py-16 sm:px-5 md:px-8 md:py-24">
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#0a0715] via-[#080611]/70 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-deep via-dusk/70 to-transparent" />
       <div className="relative mx-auto max-w-7xl">
         <AnimatedContent className="mb-10 max-w-2xl md:mb-14" distance={48}>
           <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.16em] text-orchid">Case Studies</p>
@@ -431,7 +481,7 @@ function Projects() {
                 <p className="mt-6 text-sm leading-6 text-mist">{project.problem}</p>
                 <div className="mt-6 space-y-3 border-l border-orchid/25 pl-4">
                   {project.actions.map((action) => (
-                    <p key={action} className="text-sm leading-6 text-white/72">- {action}</p>
+                    <p key={action} className="text-sm leading-6 text-white/70">- {action}</p>
                   ))}
                 </div>
                 <div className="mt-auto flex flex-wrap gap-2 pt-8">
@@ -453,11 +503,11 @@ function Experience() {
   return (
     <section
       id="experience"
-      className="relative overflow-hidden bg-[radial-gradient(circle_at_14%_16%,rgba(124,58,237,0.24),transparent_30%),radial-gradient(circle_at_86%_42%,rgba(14,165,233,0.16),transparent_28%),linear-gradient(135deg,#080611_0%,#111827_48%,#090817_100%)] px-4 py-20 sm:px-5 md:px-8 md:py-24"
+      className="experience-surface relative overflow-hidden px-4 py-20 sm:px-5 md:px-8 md:py-24"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:88px_88px] opacity-35" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-56 bg-gradient-to-b from-night via-[#0b0817]/80 to-transparent" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-night via-[#090817]/70 to-transparent" />
+      <div className="experience-grid pointer-events-none absolute inset-0 opacity-35" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-56 bg-gradient-to-b from-night via-deep/80 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-night via-deep/70 to-transparent" />
       <div className="relative mx-auto max-w-7xl space-y-16">
         <div className="grid gap-10 md:grid-cols-[0.3fr_0.7fr]">
           <AnimatedContent distance={48}>
@@ -475,7 +525,7 @@ function Experience() {
                     <div className="mb-6 flex min-h-12 items-start justify-between gap-4">
                       {logo ? (
                         <img
-                          className="max-h-12 w-28 object-contain object-left opacity-90 drop-shadow-[0_0_18px_rgba(56,189,248,0.18)]"
+                          className="logo-glow-cyan max-h-12 w-28 object-contain object-left opacity-90"
                           src={logo.src}
                           alt={logo.alt}
                         />
@@ -493,7 +543,7 @@ function Experience() {
                     <h3 className="font-display text-2xl font-semibold leading-tight text-white">{item.org}</h3>
                     {item.org !== item.title ? <p className="mt-2 text-sm font-medium text-orchid">{item.title}</p> : null}
                     {meta.context ? <p className="mt-2 text-sm text-mist">{meta.context}</p> : null}
-                    {item.description ? <p className="mt-5 text-sm leading-6 text-white/72">{item.description}</p> : null}
+                    {item.description ? <p className="mt-5 text-sm leading-6 text-white/70">{item.description}</p> : null}
                   </article>
                 </GlowCard>
               );
@@ -517,7 +567,7 @@ function Experience() {
                     <div className="mb-6 flex min-h-16 items-start justify-between gap-4">
                       {logo ? (
                         <img
-                          className="h-14 w-14 object-contain object-left opacity-85 drop-shadow-[0_0_18px_rgba(192,132,252,0.18)] sm:h-16 sm:w-16"
+                          className="logo-glow-violet h-14 w-14 object-contain object-left opacity-85 sm:h-16 sm:w-16"
                           src={logo.src}
                           alt={logo.alt}
                         />
@@ -546,8 +596,8 @@ function Experience() {
 function Skills() {
   return (
     <section id="skills" className="relative overflow-hidden bg-night px-4 py-16 sm:px-5 md:px-8 md:py-24">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#090817] via-night/80 to-transparent" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#080611] via-night/75 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-deep via-night/80 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-dusk via-night/75 to-transparent" />
       <div className="relative mx-auto max-w-7xl">
         <AnimatedContent className="mb-10 max-w-2xl md:mb-12" distance={48}>
           <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.16em] text-orchid">Expertise</p>
@@ -580,8 +630,8 @@ function Skills() {
 
 function Contact() {
   return (
-    <section id="contact" className="relative overflow-hidden bg-[#080611] px-4 py-20 text-white sm:px-5 md:px-8 md:py-24">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-night via-[#080611]/80 to-transparent" />
+    <section id="contact" className="bg-dusk relative overflow-hidden px-4 py-20 text-white sm:px-5 md:px-8 md:py-24">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-night via-dusk/80 to-transparent" />
       <div className="relative mx-auto flex max-w-7xl flex-col justify-between gap-10 border-t border-white/10 pt-12 md:flex-row md:items-end">
         <AnimatedContent distance={48}>
           <p className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.16em] text-orchid">Contact</p>
@@ -620,3 +670,4 @@ export function App() {
     </div>
   );
 }
+
